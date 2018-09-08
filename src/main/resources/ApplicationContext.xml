@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!-- 扫描包配置 包含service中的自动注入-->
+    <context:component-scan base-package="com.fanren.lib">
+    	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+     
+    
+    <!-- spring配置相关 -->
+    <!-- 主要是数据源和业务逻辑 -->
+    <context:property-placeholder location="classpath:jdbc.properties" ignore-unresolvable="true"/>
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+    	<property name="driverClassName" value="${jdbc.driverClassName}"></property>
+    	<property name="url" value="${jdbc.url}"></property>
+    	<property name="username" value="${jdbc.username}"></property>
+    	<property name="password" value="${jdbc.password}"></property>
+    </bean>
+    <!-- 配置mybatis整合 -->
+ 	<bean  id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+ 		<!-- 配置mybatis全局配置文件 -->
+ 		<property name="configLocation" value="classpath:mybatisConfig.xml"></property>
+ 		<!-- 指定数据源 -->
+ 		<property name="dataSource" ref="dataSource"></property>
+ 		
+ 	</bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    	<property name="basePackage" value="com.fanren.lib.DAO"></property>
+    </bean>
+    <!-- 下面是配置sqlsessionfactory批量处理的，仅作为参考拓宽，此功能系统并未用到但是很常见 -->
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+        <constructor-arg name="executorType" value="BATCH"/>
+    </bean>
+     
+     <!-- ==============================事务控制============================ -->
+     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+     	<property name="dataSource" ref="dataSource"></property>
+     </bean>
+     <!-- 配置事务增强，事务如何切入 -->
+     <tx:advice id="txAdvice" transaction-manager="transactionManager">
+     	<tx:attributes>
+     		<!-- 所有方法都是事务方法 -->
+     		<tx:method name="*"/>
+     		<!-- 以get方法开头的 -->
+     		<tx:method name="get*" read-only="true" />
+     	</tx:attributes>
+     </tx:advice>
+     <!-- 开启注解事务，以xml文件配置的形式是流行的方法 -->
+     <aop:config>
+     	<!-- 配置切入点，service中所有的方法，都采取事务模型 -->
+     	<aop:pointcut expression="execution(* com.fanren.lib.service..*(..))" id="txpoint"/>
+     	<!-- 配置事务增强 -->
+     	<aop:advisor advice-ref="txAdvice" pointcut-ref="txpoint"/>
+     </aop:config>
+</beans>

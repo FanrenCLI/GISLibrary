@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	<typeAliases>
+		<package name="com.fanren.lib.pojo"/>
+	</typeAliases>
+	<plugins>
+		 <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!--请求的页码超出边界时(用户干预)，能正常显示; < 1时，显示首页; 超出最大页数，显示尾页 -->
+            <property name="reasonable" value="true"/>
+        </plugin>
+	</plugins>
+</configuration>

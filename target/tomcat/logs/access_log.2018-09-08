@@ -1,0 +1,9 @@
+0:0:0:0:0:0:0:1 - - [08/Sep/2018:10:34:14 +0800] "GET /library/index.jsp HTTP/1.1" 200 5151 http-bio-8080-exec-1 513
+0:0:0:0:0:0:0:1 - - [08/Sep/2018:10:34:14 +0800] "GET /library/js/DataGet.js HTTP/1.1" 200 5128 http-bio-8080-exec-2 22
+0:0:0:0:0:0:0:1 - - [08/Sep/2018:10:34:14 +0800] "GET /library/js/Read_or_back.js HTTP/1.1" 304 - http-bio-8080-exec-3 21
+0:0:0:0:0:0:0:1 - - [08/Sep/2018:10:34:14 +0800] "GET /library/js/dialog.js HTTP/1.1" 304 - http-bio-8080-exec-7 24
+0:0:0:0:0:0:0:1 - - [08/Sep/2018:10:34:15 +0800] "GET /library/css/images/ui-icons_444444_256x240.png HTTP/1.1" 304 - http-bio-8080-exec-9 45
+0:0:0:0:0:0:0:1 - - [08/Sep/2018:10:34:15 +0800] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-9 0
+0:0:0:0:0:0:0:1 - - [08/Sep/2018:10:34:16 +0800] "GET /library/bookInfo?pn=1 HTTP/1.1" 200 1004 http-bio-8080-exec-9 544
+0:0:0:0:0:0:0:1 - - [08/Sep/2018:10:34:17 +0800] "GET /library/history?book_id=1 HTTP/1.1" 200 96 http-bio-8080-exec-3 28
+0:0:0:0:0:0:0:1 - - [08/Sep/2018:10:34:23 +0800] "GET /library/css/bootstrap.min.css.map HTTP/1.1" 404 1017 http-bio-8080-exec-3 3
